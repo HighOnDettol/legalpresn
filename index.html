@@ -27,7 +27,6 @@
         .slide {
             width: 297mm;
             height: 210mm;
-            margin: 0 auto 20px;
             padding: 40px;
             background: white;
             border: 2px solid black;
@@ -274,8 +273,8 @@
     </style>
 </head>
 <body>
-    <div class="presentation">
-        <div class="slide title-slide">
+    <div class="presentation" id="presentation-container">
+        <div class="slide pdf-page-break title-slide">
             <h1>Legal Concepts: A Presentation</h1>
             <div style="font-size: 20px; margin-top: 30px;">
                 <strong>Part 1:</strong> Indemnity and Guarantee<br><br>
@@ -299,7 +298,7 @@
             <div class="slide-number">1</div>
         </div>
 
-        <div class="slide">
+        <div class="slide pdf-page-break">
             <div class="section-header">Part 1: Indemnity and Guarantee</div>
             <h2>Contract of Indemnity (Section 124)</h2>
             
@@ -328,7 +327,7 @@
             <div class="slide-number">2</div>
         </div>
 
-        <div class="slide">
+        <div class="slide pdf-page-break">
             <h2>Contract of Guarantee (Section 126)</h2>
             
             <div class="definition-box">
@@ -359,7 +358,7 @@
             <div class="slide-number">3</div>
         </div>
 
-        <div class="slide">
+        <div class="slide pdf-page-break">
             <h2>Distinction Between Indemnity and Guarantee</h2>
             
             <table class="comparison-table">
@@ -397,7 +396,7 @@
             <div class="slide-number">4</div>
         </div>
 
-        <div class="slide">
+        <div class="slide pdf-page-break">
             <h2>Rights of an Indemnity Holder</h2>
             
             <div class="rights-section">
@@ -417,7 +416,7 @@
             <div class="slide-number">5</div>
         </div>
 
-        <div class="slide">
+        <div class="slide pdf-page-break">
             <div class="section-header">Part 2: Rights and Duties of Partners</div>
             <h2>Introduction to Partnership</h2>
             
@@ -438,7 +437,7 @@
             <div class="slide-number">6</div>
         </div>
 
-        <div class="slide">
+        <div class="slide pdf-page-break">
             <h2>Rights of Partners</h2>
             
             <div class="rights-section">
@@ -466,7 +465,7 @@
             <div class="slide-number">7</div>
         </div>
 
-        <div class="slide">
+        <div class="slide pdf-page-break">
             <h2>Duties of Partners</h2>
             
             <div class="rights-section">
@@ -490,7 +489,7 @@
             <div class="slide-number">8</div>
         </div>
 
-        <div class="slide">
+        <div class="slide pdf-page-break">
             <h2>Conclusion</h2>
             
             <div class="conclusion-points" style="margin: 25px 0;">
@@ -539,7 +538,7 @@
     }
     
     function generatePDF() {
-        const presentation = document.querySelector('.presentation');
+        const presentation = document.getElementById('presentation-container');
         const loader = document.getElementById('pdfLoader');
         const buttons = document.querySelector('.print-buttons');
 
@@ -551,10 +550,11 @@
             margin: 0,
             filename: 'Legal_Concepts_Presentation.pdf',
             image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+            html2canvas: { scale: 2, logging: false, dpi: 192, letterRendering: true },
             jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
         };
 
+        // Use the html2pdf library to generate the PDF
         html2pdf().set(options).from(presentation).save().then(() => {
             // Hide the loader and show buttons after save is complete
             loader.style.display = 'none';
