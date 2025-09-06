@@ -65,7 +65,7 @@
                 max-width: 100%;
             }
 
-            .print-button {
+            .print-buttons {
                 display: none;
             }
         }
@@ -218,17 +218,36 @@
             margin: 20px 0;
         }
 
-        .print-button {
+        .print-buttons {
             position: fixed;
             top: 20px;
             right: 20px;
+            z-index: 1000;
+        }
+        
+        .print-buttons button {
             padding: 10px 20px;
             background: black;
             color: white;
             border: none;
             cursor: pointer;
             font-size: 14px;
-            z-index: 1000;
+            margin-left: 10px;
+        }
+        
+        .pdf-loader {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1001;
+            display: none;
         }
 
         @media screen and (max-width: 768px) {
@@ -241,6 +260,16 @@
             h1 { font-size: 24px; }
             h2 { font-size: 20px; }
             table { font-size: 12px; }
+            .print-buttons {
+                position: static;
+                text-align: center;
+                margin-top: 20px;
+            }
+            .print-buttons button {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
         }
     </style>
 </head>
@@ -486,20 +515,51 @@
         </div>
     </div>
     
-    <button class="print-button" onclick="printAll()">Print Presentation</button>
+    <div class="print-buttons">
+        <button onclick="printAll()">Print Presentation</button>
+        <button onclick="generatePDF()">Save as PDF</button>
+    </div>
+    
+    <div class="pdf-loader" id="pdfLoader">Generating PDF...</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <script>
     function printAll() {
-        // Hide the button to prevent it from being printed
-        document.querySelector('.print-button').style.display = 'none';
+        // Hide the buttons to prevent them from being printed
+        document.querySelector('.print-buttons').style.display = 'none';
         
         // Trigger the print dialogue for the entire page
         window.print();
         
-        // Restore the button after a short delay
+        // Restore the buttons after a short delay
         setTimeout(function() {
-            document.querySelector('.print-button').style.display = 'block';
+            document.querySelector('.print-buttons').style.display = 'flex';
         }, 500);
+    }
+    
+    function generatePDF() {
+        const presentation = document.querySelector('.presentation');
+        const loader = document.getElementById('pdfLoader');
+        const buttons = document.querySelector('.print-buttons');
+
+        // Show the loader and hide buttons
+        loader.style.display = 'block';
+        buttons.style.display = 'none';
+
+        const options = {
+            margin: 0,
+            filename: 'Legal_Concepts_Presentation.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+
+        html2pdf().set(options).from(presentation).save().then(() => {
+            // Hide the loader and show buttons after save is complete
+            loader.style.display = 'none';
+            buttons.style.display = 'flex';
+        });
     }
     </script>
 </body>
