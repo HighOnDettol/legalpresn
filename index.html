@@ -485,7 +485,22 @@
             <div class="slide-number">9</div>
         </div>
     </div>
-
-    <button class="print-button" onclick="window.print()">Print Presentation</button>
+    
+    <button class="print-button" onclick="printAll()">Print Presentation</button>
+    
+    <script>
+    function printAll() {
+        // Hide the button to prevent it from being printed
+        document.querySelector('.print-button').style.display = 'none';
+        
+        // Trigger the print dialogue for the entire page
+        window.print();
+        
+        // Restore the button after a short delay
+        setTimeout(function() {
+            document.querySelector('.print-button').style.display = 'block';
+        }, 500);
+    }
+    </script>
 </body>
 </html>
