@@ -23,9 +23,10 @@
             margin: 0 auto;
         }
 
+        /* A4 landscape dimensions for screen and print */
         .slide {
-            width: 210mm;
-            height: 297mm;
+            width: 297mm;
+            height: 210mm;
             margin: 0 auto 20px;
             padding: 40px;
             background: white;
@@ -33,10 +34,40 @@
             page-break-after: always;
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
         }
-
+        
         .slide:last-child {
             margin-bottom: 0;
+        }
+
+        /* Print-specific styles for landscape A4 */
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+
+        @media print {
+            html, body {
+                width: 297mm;
+                height: 210mm;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            .slide {
+                margin: 0;
+                border: none;
+            }
+            
+            .presentation {
+                max-width: 100%;
+            }
+
+            .print-button {
+                display: none;
+            }
         }
 
         h1 {
@@ -179,21 +210,6 @@
             margin: 20px 0;
         }
 
-        @media print {
-            body { 
-                background: white; 
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-            .slide { 
-                page-break-after: always; 
-                margin-bottom: 0;
-            }
-            .slide:last-child {
-                page-break-after: auto;
-            }
-        }
-
         @media screen and (max-width: 768px) {
             .slide {
                 width: 95%;
@@ -209,7 +225,6 @@
 </head>
 <body>
     <div class="presentation">
-        <!-- Title Slide -->
         <div class="slide title-slide">
             <h1>Legal Concepts: A Presentation</h1>
             <div style="font-size: 20px; margin-top: 30px;">
@@ -234,7 +249,6 @@
             <div class="slide-number">1</div>
         </div>
 
-        <!-- Slide 1: Contract of Indemnity -->
         <div class="slide">
             <div class="section-header">Part 1: Indemnity and Guarantee</div>
             <h2>Contract of Indemnity (Section 124)</h2>
@@ -260,7 +274,6 @@
             <div class="slide-number">2</div>
         </div>
 
-        <!-- Slide 2: Contract of Guarantee -->
         <div class="slide">
             <h2>Contract of Guarantee (Section 126)</h2>
             
@@ -288,7 +301,6 @@
             <div class="slide-number">3</div>
         </div>
 
-        <!-- Slide 3: Distinction Between Indemnity and Guarantee -->
         <div class="slide">
             <h2>Distinction Between Indemnity and Guarantee</h2>
             
@@ -327,7 +339,6 @@
             <div class="slide-number">4</div>
         </div>
 
-        <!-- Slide 4: Rights of an Indemnity Holder -->
         <div class="slide">
             <h2>Rights of an Indemnity Holder</h2>
             
@@ -348,7 +359,6 @@
             <div class="slide-number">5</div>
         </div>
 
-        <!-- Slide 5: Introduction to Partnership -->
         <div class="slide">
             <div class="section-header">Part 2: Rights and Duties of Partners</div>
             <h2>Introduction to Partnership</h2>
@@ -366,7 +376,6 @@
             <div class="slide-number">6</div>
         </div>
 
-        <!-- Slide 6: Rights of Partners -->
         <div class="slide">
             <h2>Rights of Partners</h2>
             
@@ -395,7 +404,6 @@
             <div class="slide-number">7</div>
         </div>
 
-        <!-- Slide 7: Duties of Partners -->
         <div class="slide">
             <h2>Duties of Partners</h2>
             
@@ -420,7 +428,6 @@
             <div class="slide-number">8</div>
         </div>
 
-        <!-- Slide 8: Conclusion -->
         <div class="slide">
             <h2>Conclusion</h2>
             
@@ -446,39 +453,6 @@
         </div>
     </div>
 
-    <script>
-        // Print functionality
-        function printPresentation() {
-            window.print();
-        }
-
-        // Add keyboard shortcut for printing
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.key === 'p') {
-                e.preventDefault();
-                printPresentation();
-            }
-        });
-
-        // Add print button functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            const printBtn = document.createElement('button');
-            printBtn.innerHTML = 'Print Presentation';
-            printBtn.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                padding: 10px 20px;
-                background: black;
-                color: white;
-                border: none;
-                cursor: pointer;
-                font-size: 14px;
-                z-index: 1000;
-            `;
-            printBtn.onclick = printPresentation;
-            document.body.appendChild(printBtn);
-        });
-    </script>
+    <button class="print-button" onclick="window.print()">Print Presentation</button>
 </body>
 </html>
